@@ -10,7 +10,6 @@ const retMsg = require('./return.msg');
  * @param next
  */
 exports.authCheckByMac = (req, res, next) => getmac.getMac((err, mac) => {
-    console.log(mac)
     if (accessUser.indexOf(mac) > -1) return next();
     else return retMsg.error404NotFound(res);
 });
