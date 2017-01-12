@@ -42,12 +42,12 @@ exports.error400InvalidCall = (res, errorCode, data) => res.status(400).json({
 });
 
 // 401 - 리소스 접근권한 없음
-exports.error401Unauthorized = res => res.status(401).json({});
+exports.error401Unauthorized = res => res.status(401).send();
 
 // 403- 리소스 접근권한 만료
-exports.error403Expired = res => res.status(403).json({});
+exports.error403Expired = res => res.status(403).send();
 
-exports.error404NotFound = res => res.status(404).json({});
+exports.error404NotFound = res => res.status(404).send();
 
 // 500 - 서버 error
 exports.error500Server = (res, err) => res.status(500).json(err);
@@ -55,12 +55,3 @@ exports.error500Server = (res, err) => res.status(500).json(err);
 exports.errorInvalidAccessToken = res => res.status(400).json({
     errorCode: errorCodeMap['ERROR_INVALID_ACCESS_TOKEN']
 });
-
-// 비밀번호 틀릴 때
-exports.errorInvalidHash = res => res.status(401).json({});
-
-// No Device
-exports.errorNoDevice = res => res.status(404).json({});
-
-// No User
-exports.errorNoUser = res => res.status(401).json({});
