@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get('/', helloCtrl.index);
 
-router.put('/', authMac.authCheckByMac);
+router.put('/', authMac.authCheckByMac, helloCtrl.update);
 
 module.exports = router;

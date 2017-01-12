@@ -2,7 +2,7 @@ const https = require('https');
 const fs = require('fs');
 const app = require('../app/index.js');
 
-const dir = '/Users/sam/work/git/node-study';
+const dir = require('../app/api/v1/util/directory.path').dir;
 const port = 3000;
 
 const options = {
