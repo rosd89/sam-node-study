@@ -41,3 +41,5 @@ jspm_packages
 config/*
 key/*
 public/hello/*
+config/
+key/

@@ -10,7 +10,11 @@ const hello = require('../../../../../public/hello/hello.json');
  * @param req
  * @param res
  */
-exports.index = (req, res) => retMsg.success200RetObj(res, hello);
+exports.index = (req, res) => {
+    res.header('Last-Modified', hello.modifiedTime.toUTCString());
+
+    return retMsg.success200RetObj(res, hello);
+};
 
 /**
  * hello 수정하기
@@ -35,17 +39,20 @@ exports.update = (req, res) => {
     else if(!appVersion) return retMsg.error400InvalidCall(res, 'ERROR_INVALID_PARAM', 'appVersion');
     else if(isNaN(retryCount)) return retMsg.error400InvalidCall(res, 'ERROR_INVALID_PARAM', 'retryCount');
 
+    const modifiedTime = new Date().getTime();
     const path = `${dir}/public/hello/hello.json`;
     const output = JSON.stringify({
         status: status,
         appVersion: appVersion,
-        retryCount: retryCount
+        retryCount: retryCount,
+        modifiedTime: modifiedTime
     });
 
     fs.writeFile(path, output, 'utf-8', (err) => {
         hello.status = status;
         hello.appVersion = appVersion;
         hello.retryCount = retryCount;
+        hello.modifiedTime = new Date(modifiedTime);
 
         return retMsg.success200(res);
     });
