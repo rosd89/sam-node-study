@@ -3,6 +3,21 @@ const hash = require('../util/hash.creator');
 
 const UserInfo = require('../../../models').UserInfo;
 
+exports.index = (req, res) => UserInfo.findOne({
+    attributes: [
+        'id', 'userName', 'userAge', 'userEmail'
+    ],
+    where: {
+        id: req.params.userId
+    }
+}).then(user => {
+   if(!user){
+       return retMsg.error404NotFound(res);
+   }
+
+   return retMsg.success200RetObj(res, user);
+});
+
 /**
  * 유저 등록 init
  *
