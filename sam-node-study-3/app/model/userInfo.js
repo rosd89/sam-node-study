@@ -4,7 +4,7 @@ const db = require('./mysql.connection');
 /**
  *  Table: userInfo
  *
- *  id: 유저 ID(pk) - uuid
+ *  id: 유저 ID - pk
  *
  *  serverSalt: 2차 Hash를 만들기 위한 salt 값
  *  clientSalt: 1차 Hash를 만들기 위한 salt 값
@@ -18,7 +18,7 @@ const db = require('./mysql.connection');
  */
 const UserInfo = db.define('userInfo', {
         id: {
-            type: sequelize.CHAR(45),
+            type: sequelize.STRING(45),
             primaryKey: true
         },
         serverSalt: sequelize.CHAR(64),
