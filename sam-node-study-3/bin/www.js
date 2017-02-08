@@ -1,6 +1,5 @@
-const app = require('../app/index.js');
+const app = require('../app/index');
 
-const dir = require('../app/api/v1/util/directory.path').dir;
 const port = 3000;
 
 const syncDatabase = require('./sync-database');

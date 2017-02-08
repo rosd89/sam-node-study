@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const retMst = require('./api/v1/util/return.msg');
+const retMsg = require('./api/v1/util/return.msg');
 
 const app = express();
 
@@ -14,6 +14,6 @@ const user = require('./api/v1/user/user');
 app.use('/api/v1/users', user);
 
 // 404 Not Found
-app.use((req, res) => retMst.error404NotFound(res));
+app.use((req, res) => retMsg.error404NotFound(res));
 
 module.exports = app;
