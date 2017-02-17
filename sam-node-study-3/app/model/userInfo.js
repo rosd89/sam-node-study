@@ -16,7 +16,8 @@ const db = require('./mysql.connection');
  *
  * @type {*}
  */
-const UserInfo = db.define('userInfo', {
+const UserInfo = db.define('userInfo',
+    {
         id: {
             type: sequelize.STRING(45),
             primaryKey: true

@@ -1,7 +1,8 @@
 const sequelize = require('sequelize');
 const db = require('./mysql.connection');
 
-const UserConnectInfo = db.define('userConnectInfo', {
+const UserConnectInfo = db.define('userConnectInfo',
+    {
         userId: {
             type: sequelize.STRING(45),
             primaryKey: true,
