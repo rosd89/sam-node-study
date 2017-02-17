@@ -50,7 +50,7 @@ exports.create = (req, res) => {
     const userId = req.params.userId;
 
     const {
-        hash,
+        hashToken,
         userName = 'NONE',
         userAge = 0,
         userEmail = 'NONE'
@@ -59,10 +59,10 @@ exports.create = (req, res) => {
     // hash 정보체크
     // 유저정보는 선택사항이기 때문에 입력값이 없으면 정보없음으로 처리
     // 단 나이정보는 intteger이기 때문에 0으로 처
-    if (!hash) {
+    if (!hashToken) {
         return retMsg.error400InvalidCall(res, 'ERROR_MISSING_PARAM', 'hash');
     }
-    else if (hash.length === '64') {
+    else if (hashToken.length === '64') {
         return retMsg.error400InvalidCall(res, 'ERROR_INVALID_PARAM', 'hash');
     }
 
@@ -76,7 +76,7 @@ exports.create = (req, res) => {
         }
 
         // 2차 hash 생성
-        const secondHash = hash.getHash(hash, user.clientSalt);
+        const secondHash = hash.getHash(hashToken, user.serverSalt);
 
         user.hashToken = secondHash;
         user.userName = userName;
@@ -84,7 +84,7 @@ exports.create = (req, res) => {
         user.userEmail = userEmail;
 
         // 변경된 값 저장
-        user.save
+        user.save()
             .then(result => retMsg.success201(res))
             .catch(err => retMsg.error500Server(res, err));
     });

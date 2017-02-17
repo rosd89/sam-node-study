@@ -7,7 +7,7 @@ const UserInfo = require('./model/userInfo');
 const UserConnectInfo = require('./model/userConnectInfo');
 
 UserInfo.hasOne(UserConnectInfo, {
-   foreignKey: 'deviceId',
+   foreignKey: 'userId',
     constraints: false
 });
 

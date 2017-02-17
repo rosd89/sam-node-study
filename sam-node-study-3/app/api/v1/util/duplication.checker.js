@@ -6,14 +6,14 @@ const UserInfo = require('../../../models').UserInfo;
  * 유저 ID 중복체크
  *
  * @param req
- * @param rew
+ * @param res
  * @param next
  */
-exports.duplicationCheckByUser = (req, rew, next) => {
+exports.duplicationCheckByUser = (req, res, next) => {
     const userId = req.body.userId;
 
     if (!userId) {
-        return retMsg.error400InvalidCall(req, res, 'ERROR_MISSING_PARAM', 'userId');
+        return retMsg.error400InvalidCall(res, 'ERROR_MISSING_PARAM', 'userId');
     }
 
     UserInfo.findOne({
@@ -25,6 +25,6 @@ exports.duplicationCheckByUser = (req, rew, next) => {
             return next();
         }
 
-        return retMsg.error400InvalidCall(req, res, 'ERROR_DUPLICATE', 'userId');
+        return retMsg.error400InvalidCall(res, 'ERROR_DUPLICATE', 'userId');
     });
 };
