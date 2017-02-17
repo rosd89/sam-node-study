@@ -5,14 +5,16 @@ const db = require('./model/mysql.connection');
  */
 const FaqInfo = require('./model/faqInfo');
 const FaqDeployInfo = require('./model/faqDeployInfo');
+const AdminLogInfo = require('./model/adminLogInfo');
+const DeployInfo = require('./model/deployInfo');
 
-FaqInfo.hasMany(FaqDeployInfo, {
-    foreignKey: 'faqId',
+DeployInfo.hasMany(FaqDeployInfo, {
+    foreignKey: 'deployId',
     constraints: false
 });
 
-FaqDeployInfo.belongsTo(FaqInfo, {
-    foreignKey: 'faqId',
+FaqDeployInfo.belongsTo(DeployInfo, {
+    foreignKey: 'deployId',
     constraints: false
 });
 
@@ -20,5 +22,7 @@ FaqDeployInfo.belongsTo(FaqInfo, {
 module.exports = {
     db,
     FaqInfo,
-    FaqDeployInfo
+    FaqDeployInfo,
+    AdminLogInfo,
+    DeployInfo
 };

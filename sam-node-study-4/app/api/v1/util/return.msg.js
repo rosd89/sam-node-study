@@ -4,7 +4,8 @@ const errorCodeMap = {
     ERROR_INVALID_PARAM: -2,
     ERROR_DUPLICATE: -3,
     ERROR_INVALID_ACCESS_TOKEN: -4,
-    ERROR_NO_CONNECTION: -5
+    ERROR_NO_CONNECTION: -5,
+    ERROR_NO_MODIFIED_PARAM: -6
 };
 
 // undefined 체크

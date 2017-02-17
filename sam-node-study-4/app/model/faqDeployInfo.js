@@ -1,18 +1,36 @@
 const sequelize = require('sequelize');
 const db = require('./mysql.connection');
 
+/**
+ * FAQ 배포 테이블
+ *
+ * id: pk
+ *
+ * faqId; faq id
+ * faqTitle: FAQ 제목
+ * faqContests: FAQ 내용
+ * editType
+ * faqStatus
+ * orderNo: FAQ 순서
+ * faqEnable
+ *
+ * createdAt: 배포 정보 생성일
+ *
+ * @type {*}
+ */
 const FaqDeployInfo = db.define('faqDeployInfo',
     {
-        faqId: {
+        deployId: {
             type: sequelize.INTEGER,
             references: {
-                model: 'faqInfo',
+                model: 'deployInfo',
                 key: 'id'
             }
         },
+        faqId: sequelize.INTEGER,
         faqTitle: sequelize.STRING,
         faqContents: sequelize.TEXT,
-        editType: {
+        faqEditType: {
             type: sequelize.ENUM,
             values: [
                 'modified', 'added', 'deleted'
@@ -25,7 +43,7 @@ const FaqDeployInfo = db.define('faqDeployInfo',
             ]
         },
         orderNo: sequelize.INTEGER,
-        uEnable: sequelize.INTEGER
+        faqEnable: sequelize.INTEGER
     },
     {
         updatedAt: false,
