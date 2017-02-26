@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const connectCtrl = require('./connect.controller');
 
-const auth = require('../util/authorize.checker');
+// const auth = require('../util/authorize.checker');
 
 // client salt 가져오기
 router.get('/salt', connectCtrl.getClientSalt);

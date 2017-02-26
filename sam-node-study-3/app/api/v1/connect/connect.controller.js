@@ -44,9 +44,9 @@ exports.loginValidation = (req, res, next) => {
     const userId = req.body.userId;
     const hash1st = req.body.hash;
 
-    if (!userId) return retMsg.error400InvalidCall(req, res, 'ERROR_MISSING_PARAM', 'userId');
-    else if (!hash1st) return retMsg.error400InvalidCall(req, res, 'ERROR_MISSING_PARAM', 'hash');
-    else if (hash1st.length !== 64) return retMsg.error400InvalidCall(req, res, 'ERROR_INVALID_PARAM', 'hash');
+    if (!userId) return retMsg.error400InvalidCall(req, 'ERROR_MISSING_PARAM', 'userId');
+    else if (!hash1st) return retMsg.error400InvalidCall(req, 'ERROR_MISSING_PARAM', 'hash');
+    else if (hash1st.length !== 64) return retMsg.error400InvalidCall(req, 'ERROR_INVALID_PARAM', 'hash');
 
     UserInfo.findOne({
         where: {
@@ -100,7 +100,7 @@ exports.update = (req, res) => UserConnectInfo.findOne({
         userId: req.body.userId,
     }
 }).then(connection => {
-    if (!connection) return retMsg.error400InvalidCall(req, res, 'ERROR_NO_CONNECTION');
+    if (!connection) return retMsg.error400InvalidCall(res, 'ERROR_NO_CONNECTION');
 
     // 인증정보 추가
     connection.accessToken = hash.getSalt();
@@ -119,16 +119,12 @@ exports.update = (req, res) => UserConnectInfo.findOne({
  * @param res
  * @param req
  */
-exports.destroy = (req, res) => {
-    const accessToken = req.body.accessToken;
-
-    UserConnectInfo.destroy({
-        where: {
-            accessToken: accessToken
-        }
-    })
-        .then(_ => retMsg.success204(res))
-        .catch(err => retMsg.error500Server(res, {
-            err: err
-        }));
-};
+exports.destroy = (req, res) => UserConnectInfo.destroy({
+    where: {
+        accessToken: accessToken
+    }
+})
+    .then(_ => retMsg.success204(res))
+    .catch(err => retMsg.error500Server(res, {
+        err: err
+    }));

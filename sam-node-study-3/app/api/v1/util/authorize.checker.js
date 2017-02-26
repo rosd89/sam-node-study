@@ -39,7 +39,7 @@ exports.authCheck = (req, res, next) => {
     }).then(connection => {
         if (!connection) return retMsg.error400InvalidCall(req, res, 'ERROR_INVALID_ACCESS_TOKEN');
 
-        const timeNum = connection.dataValues.expiredTime.getTime() - new Date().getTime();
+        const timeNum = connection.expiredTime.getTime() - new Date().getTime();
         if (timeNum < 0) {
             // 인증시간 만료
             return retMsg.error403Expired(res);

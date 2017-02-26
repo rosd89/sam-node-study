@@ -27,7 +27,6 @@ const FaqInfo = db.define('faqInfo',
                 'noaction', 'modified', 'added', 'deleted'
             ]
         },
-        orderNo: sequelize.INTEGER,
         faqEnable: sequelize.INTEGER
     },
     {

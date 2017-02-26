@@ -11,7 +11,6 @@ const db = require('./mysql.connection');
  * faqContests: FAQ 내용
  * editType
  * faqStatus
- * orderNo: FAQ 순서
  * faqEnable
  *
  * createdAt: 배포 정보 생성일
@@ -42,7 +41,6 @@ const FaqDeployInfo = db.define('faqDeployInfo',
                 'active', 'pending', 'delete'
             ]
         },
-        orderNo: sequelize.INTEGER,
         faqEnable: sequelize.INTEGER
     },
     {
