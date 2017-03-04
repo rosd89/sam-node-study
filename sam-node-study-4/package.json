@@ -18,6 +18,7 @@
   "homepage": "https://github.com/rosd89/sam-node-study#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "co": "^4.6.0",
     "express": "^4.14.0",
     "getmac": "^1.2.1",
     "mysql": "^2.12.0",

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const faqCtrl = require('./faq.controller');
+// const faqCtrl = require('./faq.controller');
 const faqAdminCtrl = require('./faq.controller');
 const authCheckByMac = require('../util/auth.mac.checker').authCheckByMac;
 
@@ -15,6 +15,6 @@ router.put('/:faqId', authCheckByMac, faqAdminCtrl.update);
 router.put('/delete/:faqId', authCheckByMac, faqAdminCtrl.deleteEditType);
 
 // FAQ 배포
-router.post('/deploy', authCheckByMac, faqAdminCtrl.deploy);
+router.post('/deploy', authCheckByMac, faqAdminCtrl.deploy, faqAdminCtrl.sync);
 
 module.exports = router;
