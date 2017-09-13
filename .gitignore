@@ -38,8 +38,7 @@ jspm_packages
 
 .idea
 
-config/*
-key/*
-public/hello/*
-config/
-key/
+public
+sam-node-study-*
+
+config.json

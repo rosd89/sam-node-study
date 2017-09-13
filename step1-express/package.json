@@ -1,0 +1,14 @@
+{
+  "name": "step1-express",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "bin/www.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
+}
