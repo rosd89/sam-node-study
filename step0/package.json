@@ -1,0 +1,21 @@
+{
+  "name": "step1-express-https",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "bin/www.js",
+    "test": "NODE_ENV=test node_modules/.bin/mocha app/api/**/*.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.4"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.3",
+    "should": "^13.0.1",
+    "supertest": "^3.0.0"
+  }
+}
