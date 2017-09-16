@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "bin/www.js",
+    "start": "NODE_ENV=test bin/www.js",
     "test": "NODE_ENV=test node_modules/.bin/mocha app/api/**/*.spec.js"
   },
   "keywords": [],

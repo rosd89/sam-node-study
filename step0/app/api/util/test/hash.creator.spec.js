@@ -47,6 +47,6 @@ describe('암호화 모듈 테스트', _ => {
   it('암호화 모듈 테스트 7 - getExpiredTime 함수 테스트', () => {
     const expiredTime = getExpiredTime();
 
-    (expiredTime - Date.now()).should.be.lessThan(1000 * 60 * 60 * 2);
+    (expiredTime - Date.now()).should.be.lessThanOrEqual(1000 * 60 * 60 * 2);
   });
 });
