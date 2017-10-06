@@ -1,7 +1,9 @@
+const co = require('co');
+
 const retMsg = require('../../util/return.msg');
 const {getSalt, getHash} = require('../../util/hash.creator');
+const {tpcm, tpci, tpcd, nf, tnf} = require('../../util/param.checker');
 
-const {tpcm, tpci, pcd, nf} = require('../../util/param.checker');
 const {findOneUser, createUser} = require('../../service/user.service');
 
 /**
@@ -9,11 +11,14 @@ const {findOneUser, createUser} = require('../../service/user.service');
  *
  * @param req
  * @param res
+ * @param next
  */
-exports.index = ({params: {userId: id}}, res, next) => findOneUser(
-  ['id', 'userName', 'userAge', 'userEmail'],
-  {id}
-).then(user => {
+exports.index = ({params: {userId: id}, res, next}) => co(function* () {
+  const user = yield findOneUser(
+    ['id', 'userName', 'userAge', 'userEmail'],
+    {id}
+  );
+
   if (!user) return next(nf());
 
   return retMsg.success200RetObj(res, user);
@@ -33,8 +38,10 @@ exports.init = (req, res) => {
 
   // 유저데이터를 추가
   // return값은 clientSalt만 보냄
-  createUser({id, clientSalt, serverSalt})
-    .then(({clientSalt: salt}) => retMsg.success200RetObj(res, {salt}));
+
+  const {clientSalt: salt} = createUser({id, clientSalt, serverSalt});
+
+  return retMsg.success200RetObj(res, {salt});
 };
 
 /**
@@ -43,7 +50,7 @@ exports.init = (req, res) => {
  * @param req
  * @param res
  */
-exports.create = (req, res, next) => {
+exports.create = (req, res, next) => co(function* () {
   const {userId: id} = req.params;
 
   const {
@@ -58,22 +65,26 @@ exports.create = (req, res, next) => {
   // 단 나이정보는 intteger이기 때문에 0으로 처
   if (hash.length === '64') tpci('hash');
 
-  findOneUser(undefined, {id}).then(user => {
-    if (!user) return next(nf());
+  const user = yield findOneUser(undefined, {id});
 
-    // 2차 hash 생성
-    const secondHash = getHash(hash, user.serverSalt);
+  if(!user) tnf()
 
-    user.hashToken = secondHash;
-    user.userName = userName;
-    user.userAge = userAge;
-    user.userEmail = userEmail;
+  // 2차 hash 생성
+  const secondHash = getHash(hash, user.serverSalt);
 
-    // 변경된 값 저장
-    user.save()
-      .then(result => retMsg.success201(res));
-  });
-};
+  user.hashToken = secondHash;
+  user.userName = userName;
+  user.userAge = userAge;
+  user.userEmail = userEmail;
+
+  const result = yield user.save();
+  console.log(result);
+
+  return retMsg.success201(res);
+}).catch(err => {
+  console.log(err);
+  next(err);
+});
 
 /**
  * 유저 ID 중복체크
@@ -82,14 +93,14 @@ exports.create = (req, res, next) => {
  * @param res
  * @param next
  */
-exports.duplicationCheckByUser = (req, res, next) => {
-  const {userId: id} = req.body;
+exports.duplicationCheckByUser = (req, res, next) => co(function* () {
+  const {userId: id = tpcm('userId')} = req.body;
+  const user = yield findOneUser(undefined, {id});
 
-  if (!id) tpcm('userId');
+  if(!user) return next();
 
-  findOneUser(undefined, {id}).then(user => {
-    if (!user) return next();
-
-    return next(pcd('userId'));
-  });
-};
+  next(tpcd('userId'));
+}).catch(err => {
+  console.log(err);
+  next(err);
+});

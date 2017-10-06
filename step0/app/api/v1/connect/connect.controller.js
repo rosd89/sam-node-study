@@ -1,7 +1,8 @@
+const co = require('co');
+
 const retMsg = require('../../util/return.msg.js');
 const {getSalt, getHash, getExpiredTime} = require('../../util/hash.creator');
-
-const {tpcm, tpci, pcc, nf, u} = require('../../util/param.checker');
+const {tpcm, tpci, tpcc, tnf, tu} = require('../../util/param.checker');
 
 const {findOneUser} = require('../../service/user.service');
 const {findOneConnection, createConnection, destroyConnection} = require('../../service/connect.service');
@@ -12,24 +13,20 @@ const {findOneConnection, createConnection, destroyConnection} = require('../../
  * @param req
  * @param res
  */
-exports.getClientSalt = (req, res) => {
+exports.getClientSalt = (req, res) => co(function* () {
   const {userId: id} = req.query;
-  if (!id) tpcm('userId');
+  const user = yield findOneUser(undefined, {id});
 
-  findOneUser(undefined, {id}).then(user => {
-    // getSalt 정책
-    //   - 리턴값은 결과값이 성공일 때와 동일한 형태로 전송
-    if (!user) {
-      return retMsg.success200RetObj(res, {
-        salt: getSalt()
-      });
-    }
-
+  if (!user) {
     return retMsg.success200RetObj(res, {
-      salt: user.clientSalt
+      salt: getSalt()
     });
-  });
-};
+  }
+
+  return retMsg.success200RetObj(res, {
+    salt: user.clientSalt
+  })
+});
 
 /**
  * 로그인 인증 확인 Middleware
@@ -38,20 +35,23 @@ exports.getClientSalt = (req, res) => {
  * @param res
  * @param next
  */
-exports.loginValidation = (req, res, next) => {
+exports.loginValidation = (req, res, next) => co(function* () {
   const {userId: id = tpcm('userId'), hash: hash1st = tpcm('hash')} = req.body;
-  if (hash1st.length !== 64) tpci('hash');
+  if (hash1st.length === '64') tpci('hash');
 
-  findOneUser(undefined, {id}).then(user => {
-    if (!user) return next(nf());
+  const user = yield findOneUser(undefined, {id});
 
-    const {serverSalt, hashToken} = user;
-    const hash2nd = getHash(hash1st, serverSalt);
-    if (hashToken !== hash2nd) return next(u());
+  if (!user) tnf();
 
-    return next();
-  });
-};
+  const {serverSalt, hashToken} = user;
+  const hash2nd = getHash(hash1st, serverSalt);
+  if (hashToken !== hash2nd) tu();
+
+  return next();
+}).catch(err => {
+  console.log(err);
+  next(err);
+});
 
 /**
  * 로그인 Controller
@@ -59,31 +59,44 @@ exports.loginValidation = (req, res, next) => {
  * @param req
  * @param res
  */
-exports.create = ({body: {userId}}, res) => destroyConnection({userId})
-  .then(_ => createConnection({
+exports.create = (req, res) => co(function* () {
+  const {userId} = req.body;
+
+  yield destroyConnection({userId});
+  const {accessToken} = yield createConnection({
     userId,
     accessToken: getSalt(),
     expiredTime: getExpiredTime()
-  }))
-  .then(({accessToken}) => retMsg.success200RetObj(res, {accessToken}));
+  });
+
+  return retMsg.success200RetObj(res, {accessToken});
+});
 
 /**
  *  로그인 갱신 Controller
  *
  * @param req
  * @param res
+ * @param next
  */
-exports.update = ({body: {userId}}, res, next) => findOneConnection({userId})
-  .then(connection => {
-    if (!connection) return next(pcc());
+exports.update = (req, res, next) => co(function* () {
+  const {userId} = req.body;
+  const connection = findOneConnection({userId});
 
-    // 인증정보 추가
-    connection.accessToken = getSalt();
-    connection.expiredTime = getExpiredTime();
+  if(!connection) tpcc();
 
-    connection.save()
-      .then(_ => retMsg.success200RetObj(res, {accessToken}));
-  });
+  // 인증정보 갱신
+  const accessToken = getSalt();
+  connection.accessToken = accessToken;
+  connection.expiredTime = getExpiredTime();
+
+  yield connection.save();
+
+  retMsg.success200RetObj(res, {accessToken});
+}).catch(err => {
+  console.log(err);
+  next(err);
+});
 
 /**
  * 로그아웃 Controller
@@ -91,5 +104,9 @@ exports.update = ({body: {userId}}, res, next) => findOneConnection({userId})
  * @param res
  * @param req
  */
-exports.destroy = ({body: {accessToken}}, res) => destroyConnection({accessToken})
-  .then(_ => retMsg.success204(res));
+exports.destroy = (req, res) => co(function* () {
+  const {accessToken} = req.body;
+  const result = yield destroyConnection({accessToken});
+
+  retMsg.success204(res);
+});

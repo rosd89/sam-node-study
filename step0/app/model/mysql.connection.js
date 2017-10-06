@@ -1,11 +1,12 @@
 const sequelize = require('sequelize');
-const {database, username, password, host, port, logging} = require('../config/environment');
+const {database, dialect, username, password, host, port} = require('../config/environment');
 
 const db = new sequelize(
-  database,
-  username,
-  password,
-  {host, port, logging}
+  database, username, password,
+  {
+    host, dialect, port,
+    logging: msg => console.log(msg)
+  }
 );
 
 module.exports = db;

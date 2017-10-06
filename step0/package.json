@@ -11,7 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.4"
+    "body-parser": "^1.18.2",
+    "co": "^4.6.0",
+    "express": "^4.16.1",
+    "mysql2": "^1.4.2",
+    "node-uuid": "^1.4.8",
+    "sequelize": "^4.13.5"
   },
   "devDependencies": {
     "mocha": "^3.5.3",

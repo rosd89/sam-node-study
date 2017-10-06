@@ -1,4 +1,4 @@
-const {UserConnectInfo} = require('../../models');
+const {sequelize, UserConnectInfo} = require('../../models');
 
 /**
  * 유저 접속 기록 조회 Service
