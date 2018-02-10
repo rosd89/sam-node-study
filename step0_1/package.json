@@ -1,0 +1,33 @@
+{
+  "name": "step0_1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "mysql2": "^1.5.1",
+    "node-uuid": "^1.4.8",
+    "sequelize": "^4.31.2",
+    "sexy-require": "^0.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.6.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "path": {
+    "$service": "/db/service",
+    "$routeLib": "/app/routes/routeLib"
+  }
+}
