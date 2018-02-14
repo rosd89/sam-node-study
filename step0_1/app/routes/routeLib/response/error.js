@@ -1,8 +1,4 @@
-const {
-  code: {
-    NO_CONNECTION
-  }
-} = require('$routeLib')
+const {NO_CONNECTION} = require('./responseCode');
 
 /**
  * Validation Mismatch - 인자 값이 유효하지 않음

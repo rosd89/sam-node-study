@@ -3,7 +3,7 @@ const router = require('express').Router();
 
 const {auth} = require('../../../routeMiddleware');
 const loginValidation = require('./middleware/loginValidation');
-const {validConnection} = require('./validate')
+const {validConnection} = require('./validate');
 
 // client salt 가져오기
 router.get('/salt', require('./controller/getClientSalt'));

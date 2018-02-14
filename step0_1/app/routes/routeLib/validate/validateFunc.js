@@ -1,4 +1,4 @@
-const {error} = require('$routeLib');
+const error = require('../response/error');
 
 /**
  * 인자 값 Valid 체크

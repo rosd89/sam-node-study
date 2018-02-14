@@ -1,8 +1,6 @@
 const {
-  code: {
-    MISSING_PARAM, INVALID_PARAM
-  }
-} = require('$routeLib');
+  MISSING_PARAM, INVALID_PARAM
+} = require('../response/responseCode');
 
 /**
  * userId - Parameter 규칙

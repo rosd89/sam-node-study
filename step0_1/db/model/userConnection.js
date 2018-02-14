@@ -1,12 +1,12 @@
 module.exports = (obj, sequelize) => {
-  const name = 'userConnection'
+  const name = 'userConnection';
   const model = obj.sequelize.define(name,
     {
       userId: {
         type: sequelize.STRING(45),
         primaryKey: true,
         references: {
-          model: this.user,
+          model: obj.user,
           key: 'id'
         }
       },
@@ -19,7 +19,7 @@ module.exports = (obj, sequelize) => {
       indexes: [
         {fields: ['accessToken']}
       ]
-    })
+    });
 
   obj[name] = model;
-}
+};
