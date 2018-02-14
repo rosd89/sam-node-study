@@ -1,4 +1,4 @@
-const {NO_CONNECTION} = require('./responseCode');
+const {NO_CONNECTION, DUPLICATE} = require('./responseCode');
 
 /**
  * Validation Mismatch - 인자 값이 유효하지 않음
@@ -11,6 +11,20 @@ exports.validationMismatch = (key, message, code) => {
     ['statusCode', 400],
     ['message', message],
     ['code', code],
+    ['data', key]
+  ]);
+};
+
+/**
+ * Duplicate Data - 중복되는 정보
+ *
+ * @param key
+ */
+exports.duplicate = key => {
+  throw new Map([
+    ['statusCode', 400],
+    ['message', 'Duplicate Data'],
+    ['code', DUPLICATE],
     ['data', key]
   ]);
 };
