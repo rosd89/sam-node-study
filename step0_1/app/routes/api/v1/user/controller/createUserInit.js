@@ -22,7 +22,7 @@ module.exports = async ({body: {userId: id}}, res, next) => {
     // return값은 clientSalt만 보냄
     const {clientSalt: salt} = createUser({id, clientSalt, serverSalt});
 
-    resMsg.success200RetObj(res, {salt});
+    resMsg.success201RetObj(res, {salt});
   } catch (e) {
     next(e);
   }
