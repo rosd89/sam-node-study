@@ -7,6 +7,6 @@ const {resMsg} = require('$routeLib');
  * @param res
  * @param next
  */
-module.exports = async ({query}, res, next) => {
+module.exports = (body, res) => {
   resMsg.tokenClear(res);
 };
