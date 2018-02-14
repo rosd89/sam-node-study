@@ -9,7 +9,7 @@ const {hash: {getSalt, getExpiredTime}, resMsg, err} = require('$routeLib');
 /**
  * Update Connection Controller
  *
- * @param body
+ * @param req
  * @param res
  * @param next
  */

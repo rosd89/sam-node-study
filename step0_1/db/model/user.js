@@ -1,5 +1,5 @@
 module.exports = (obj, sequelize) => {
-  const name = 'user'
+  const name = 'user';
 
   /**
    *  Table: user

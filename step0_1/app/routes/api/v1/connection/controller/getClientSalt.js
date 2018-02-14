@@ -2,9 +2,15 @@ const {user: {findOneUser}} = require('$service');
 
 const {hash: {getSalt}, resMsg} = require('$routeLib');
 
-module.exports = async ({query}, res, next) => {
+/**
+ * Get ClientSalt Controller
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+module.exports = async ({query: {userId: id}}, res, next) => {
   try {
-    const {userId: id} = query;
     const user = await findOneUser(undefined, {id});
 
     if (!user) {
