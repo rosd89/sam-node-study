@@ -6,4 +6,6 @@ exports.DUPLICATE = -3;
 
 exports.INVALID_ACCESSTOKEN = -4;
 
-exports.NO_CONNECTION = -5;
+exports.EXPIRED_ACCESSTOKEN = -5;
+
+exports.NO_CONNECTION = -6;

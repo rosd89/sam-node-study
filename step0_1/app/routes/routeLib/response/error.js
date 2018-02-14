@@ -1,4 +1,4 @@
-const {NO_CONNECTION, DUPLICATE} = require('./responseCode');
+const {NO_CONNECTION, DUPLICATE, EXPIRED_ACCESSTOKEN} = require('./responseCode');
 
 /**
  * Validation Mismatch - 인자 값이 유효하지 않음
@@ -47,6 +47,17 @@ exports.noConnection = _ => {
     ['statusCode', 401],
     ['message', 'No Connection'],
     ['code', NO_CONNECTION]
+  ]);
+};
+
+/**
+ * Expired accessToken - 인증이 만료된 accessToken
+ */
+exports.expiredToken = _ => {
+  throw new Map([
+    ['statusCode', 401],
+    ['message', 'Expired Access Token'],
+    ['code', EXPIRED_ACCESSTOKEN]
   ]);
 };
 
