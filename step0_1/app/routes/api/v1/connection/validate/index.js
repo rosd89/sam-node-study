@@ -10,7 +10,7 @@ const rules = require('./rules');
  */
 exports.validConnection = async ({body}, res, next) => {
   try {
-    await validate(body, rules.createConnection);
+    await validate({body}, rules.createConnection);
   } catch (e) {
     next(e);
   }
