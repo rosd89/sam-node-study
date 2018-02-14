@@ -6,7 +6,8 @@ const middlewares = [
 ];
 
 const error = [
-  require('./defauleRoute.middleware')
+  require('./defauleRoute.middleware'),
+  require('../routes/routeLib/response/error.handler')
 ];
 
 module.exports = {
