@@ -23,8 +23,7 @@ exports.success201RetObjWithToken = (res, accessToken, obj = {}) => {
 exports.success204 = res => res.status(204).send();
 
 // 204 - Token Clear
-exports.tokenClear = (res) => {
+exports.tokenClear = res => {
   res.clearCookie('accessToken');
-
   this.success204(res);
 };

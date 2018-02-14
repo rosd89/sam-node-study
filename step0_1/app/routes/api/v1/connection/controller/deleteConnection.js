@@ -1,3 +1,4 @@
+const {resMsg} = require('$routeLib');
 
 /**
  * Delete Connection Controller
@@ -7,4 +8,5 @@
  * @param next
  */
 module.exports = async ({query}, res, next) => {
+  resMsg.tokenClear(res);
 };
