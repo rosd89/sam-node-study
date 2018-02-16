@@ -17,11 +17,11 @@ module.exports = async ({query: {userId: id}}, res, next) => {
       resMsg.success200RetObj(res, {
         salt: getSalt()
       });
+    } else {
+      resMsg.success200RetObj(res, {
+        salt: user.clientSalt
+      });
     }
-
-    resMsg.success200RetObj(res, {
-      salt: user.clientSalt
-    });
   } catch (e) {
     next(e);
   }
